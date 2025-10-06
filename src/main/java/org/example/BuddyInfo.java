@@ -11,14 +11,16 @@ public class BuddyInfo {
 
     private String name;
     private String phoneNumber;
+    private String address;
 
     // No arg constructor required by JPA
     public BuddyInfo() {
     }
 
-    public BuddyInfo(String name, String phoneNumber) {
+    public BuddyInfo(String name, String phoneNumber, String address) {
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.address = address;
     }
 
     @ManyToOne
@@ -56,7 +58,7 @@ public class BuddyInfo {
 
     public static void main(String[] args) {
 
-        BuddyInfo buddy1 = new BuddyInfo("Alice", "123-456-7890");
+        BuddyInfo buddy1 = new BuddyInfo("Alice", "123-456-7890", "123 Dynes place");
 
         System.out.println(buddy1);
 

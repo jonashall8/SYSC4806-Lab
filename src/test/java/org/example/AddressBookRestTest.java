@@ -26,7 +26,7 @@ public class AddressBookRestTest {
     void whenSaveAddressBook_thenBuddyShowsUpViaRest() {
         // Arrange
         AddressBook book = new AddressBook();
-        book.addBuddy(new BuddyInfo("John Doe", "555-1234"));
+        book.addBuddy(new BuddyInfo("John Doe", "555-1234", "123 Gray Drive"));
         addressBookRepository.save(book);
 
         // Act: fetch buddies
@@ -43,7 +43,7 @@ public class AddressBookRestTest {
     void whenSaveAddressBook_thenItShowsUpViaRest() {
         // Arrange
         AddressBook book = new AddressBook();
-        book.addBuddy(new BuddyInfo("Jane Smith", "555-6789"));
+        book.addBuddy(new BuddyInfo("Jane Smith", "555-6789", "459 Dynes Road"));
         addressBookRepository.save(book);
 
         // Act: fetch address books

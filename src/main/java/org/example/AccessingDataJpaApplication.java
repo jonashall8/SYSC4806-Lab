@@ -21,12 +21,12 @@ public class AccessingDataJpaApplication {
                                   BuddyInfoRepository buddyRepo) {
         return (args) -> {
             // create some buddies
-            BuddyInfo buddy1 = new BuddyInfo("Jack", "123-4567");
-            BuddyInfo buddy2 = new BuddyInfo("Chloe", "234-5678");
-            BuddyInfo buddy3 = new BuddyInfo("Kim", "345-6789");
-            BuddyInfo buddy4 = new BuddyInfo("John", "456-7893");
-            BuddyInfo buddy5 = new BuddyInfo("Jane", "567-7890");
-            BuddyInfo buddy6 = new BuddyInfo("David", "678-9043");
+            BuddyInfo buddy1 = new BuddyInfo("Jack", "123-4567", "123 Cederbrook Lane");
+            BuddyInfo buddy2 = new BuddyInfo("Chloe", "234-5678", "589 Cederbrook Lane");
+            BuddyInfo buddy3 = new BuddyInfo("Kim", "345-6789", "634 Dynes Road");
+            BuddyInfo buddy4 = new BuddyInfo("John", "456-7893", "90 Parliment Ave");
+            BuddyInfo buddy5 = new BuddyInfo("Jane", "567-7890", "34 Washington Blvd");
+            BuddyInfo buddy6 = new BuddyInfo("David", "678-9043", "7534 Hitch Cresent");
 
             // create an address book and add buddies
             AddressBook addressBook = new AddressBook();

@@ -7,9 +7,9 @@ public class Main {
 
         AddressBook myAddressBook = new AddressBook();
 
-        BuddyInfo buddy1 = new BuddyInfo("John Doe", "555-1234");
-        BuddyInfo buddy2 = new BuddyInfo("Jane Smith", "555-3456");
-        BuddyInfo buddy3 = new BuddyInfo("Alice Johnson", "555-6789");
+        BuddyInfo buddy1 = new BuddyInfo("John Doe", "555-1234", "123 George Bush Ave");
+        BuddyInfo buddy2 = new BuddyInfo("Jane Smith", "555-3456", "439 Dynes Road");
+        BuddyInfo buddy3 = new BuddyInfo("Alice Johnson", "555-6789", "323 Great Place Drive");
 
         myAddressBook.addBuddy(buddy1);
         myAddressBook.addBuddy(buddy2);

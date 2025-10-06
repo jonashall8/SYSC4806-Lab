@@ -16,8 +16,8 @@ public class JPATest {
 
         // Persist BuddyInfo entities
         System.out.println("Persisting BuddyInfo objects...");
-        BuddyInfo buddy1 = new BuddyInfo("Alice", "123-456-7890");
-        BuddyInfo buddy2 = new BuddyInfo("Bob", "987-654-3210");
+        BuddyInfo buddy1 = new BuddyInfo("Alice", "123-456-7890", "123 Dynes Road");
+        BuddyInfo buddy2 = new BuddyInfo("Bob", "987-654-3210", "459 Dynes Road");
         buddyRepo.save(buddy1);
         buddyRepo.save(buddy2);
 
@@ -30,8 +30,8 @@ public class JPATest {
 
         // Persist AddressBook with buddies
         System.out.println("\nPersisting AddressBook with buddies...");
-        BuddyInfo buddy3 = new BuddyInfo("John Doe", "555-1234");
-        BuddyInfo buddy4 = new BuddyInfo("Jane Smith", "555-3456");
+        BuddyInfo buddy3 = new BuddyInfo("John Doe", "555-1234", "123 Washignton Square");
+        BuddyInfo buddy4 = new BuddyInfo("Jane Smith", "555-3456", "568 Huntington Beach");
         AddressBook addressBook = new AddressBook();
         addressBook.addBuddy(buddy3);
         addressBook.addBuddy(buddy4);
