@@ -48,6 +48,10 @@ public class BuddyInfo {
         return phoneNumber;
     }
 
+    public String getAddress () {
+        return address;
+    }
+
     @Override
     public String toString() {
         return "BuddyInfo{id=" + id +
