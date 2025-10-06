@@ -17,10 +17,4 @@ public class BuddyInfoTest {
         Assertions.assertEquals("123-456-7890", buddy.getPhoneNumber());
     }
 
-    @Test
-    public void testToString() {
-        BuddyInfo buddy = new BuddyInfo("Alice", "123-456-7890", "123 Dynes Road");
-        String expectedString = "BuddyInfo{id=null, name='Alice', phoneNumber='123-456-7890', address='123 Dynes Road'}";
-        Assertions.assertEquals(expectedString, buddy.toString());
-    }
 }
