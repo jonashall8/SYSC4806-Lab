@@ -5,13 +5,23 @@
     <title>Buddies List</title>
 </head>
 <body>
-<h1>Buddies in Address Book</h1>
+<h1>Buddies in Address Book <span th:text="${addressBook.id}"></span></h1>
+
 <ul>
     <li th:each="buddy : ${buddies}">
-        <span th:text="${buddy.name}">Buddy Name</span> -
-        <span th:text="${buddy.phoneNumber}">Phone Number</span>
+        <strong th:text="${buddy.name}">Buddy Name</strong> -
+        <span th:text="${buddy.phoneNumber}">Phone Number</span> -
         <span th:text="${buddy.address}">Address</span>
     </li>
 </ul>
+
+<!-- ✅ Add Buddy button that links to the current address book’s addBuddy form -->
+<form th:action="@{/addBuddy/{id}(id=${addressBook.id})}" method="get">
+    <button type="submit" id="addBuddyBtn" >Add New Buddy</button>
+</form>
+
+<!-- ✅ Back button -->
+<br>
+<a th:href="@{/addressBooks/list}">← Back to Address Books</a>
 </body>
 </html>

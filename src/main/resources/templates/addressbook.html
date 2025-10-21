@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Address Books</title>
+</head>
+<body>
+<h1>All Address Books</h1>
+
+<a th:href="@{/addAddressBook}">+ Add New Address Book</a>
+<br/><br/>
+
+<!-- safe check if no address books -->
+<div th:if="${addressBooks == null or #lists.isEmpty(addressBooks)}">
+    <p>No address books found.</p>
+</div>
+
+<!-- iterate over addressBooks (note the exact name) -->
+<div th:each="ab : ${addressBooks}">
+    <h2 th:text="'Address Book ID: ' + ${ab.id}">Address Book ID: 1</h2>
+
+    <!-- proper Thymeleaf parameterized URL for add-buddy form -->
+    <a th:href="@{/addBuddy/{id}(id=${ab.id})}">Add Buddy</a>
+    &nbsp;|&nbsp;
+    <a th:href="@{/addressBooks/{id}/view(id=${ab.id})}">View Buddies</a>
+
+    <table border="1" cellpadding="5" style="margin-top:10px;" th:if="${ab.buddies != null and !#lists.isEmpty(ab.buddies)}">
+        <thead>
+        <tr><th>Name</th><th>Phone Number</th><th>Address</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="buddy : ${ab.buddies}">
+            <td th:text="${buddy.name}">Buddy Name</td>
+            <td th:text="${buddy.phoneNumber}">Phone Number</td>
+            <td th:text="${buddy.address}">Address</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- shown when the address book exists but has no buddies -->
+    <div th:if="${ab.buddies == null or #lists.isEmpty(ab.buddies)}">
+        <em>No buddies in this address book.</em>
+    </div>
+
+    <br/>
+</div>
+
+</body>
+</html>

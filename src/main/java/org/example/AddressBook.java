@@ -1,6 +1,7 @@
 package org.example;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,14 +11,21 @@ public class AddressBook {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String name;
 
     // one AddressBook can have many BuddyInfos
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonManagedReference // <-- ADD THIS ANNOTATION
 
     @JoinColumn(name = "ADDRESSBOOK_ID")
     private List<BuddyInfo> buddies = new ArrayList<>();
 
     public AddressBook() {
+    }
+
+    // New constructor with name
+    public AddressBook(String name) {
+        this.name = name;
     }
 
     public void addBuddy(BuddyInfo buddy) {

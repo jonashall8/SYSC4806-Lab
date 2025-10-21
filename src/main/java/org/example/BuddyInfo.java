@@ -1,6 +1,7 @@
 package org.example;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class BuddyInfo {
@@ -25,6 +26,7 @@ public class BuddyInfo {
 
     @ManyToOne
     @JoinColumn(name = "ADDRESSBOOK_ID")
+    @JsonBackReference // <-- ADD THIS ANNOTATION
     private AddressBook addressBook;
 
     public void setAddressBook(AddressBook addressBook) {
@@ -51,6 +53,16 @@ public class BuddyInfo {
     public String getAddress () {
         return address;
     }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
 
     @Override
     public String toString() {

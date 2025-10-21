@@ -6,11 +6,20 @@
 </head>
 <body>
 <h1>All Address Books</h1>
+
+<!-- Create new address book button -->
+
 <ul>
     <li th:each="addressBook : ${addressBooks}">
         AddressBook ID: <span th:text="${addressBook.id}">1</span> -
         <a th:href="@{/addressBooks/{id}/view(id=${addressBook.id})}">View Buddies</a>
     </li>
 </ul>
+
+<form th:action="@{/addAddressBook}" method="get">
+    <button type="submit" >Create New Address Book</button>
+</form>
+
+<script src="/js/addressBook.js"></script>
 </body>
 </html>
