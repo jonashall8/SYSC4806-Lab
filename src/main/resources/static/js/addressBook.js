@@ -2,101 +2,68 @@
 
 console.log("✅ addressBook.js loaded successfully!");
 
-// Run only after page finishes loading
 
-document.addEventListener("DOMContentLoaded", function () {
-    const form = document.querySelector("#addBuddyForm");
-    if (!form) {
-        console.warn("⚠️ No addBuddyForm found on this page");
-        return;
-    }
 
-    console.log("✅ Found addBuddyForm");
 
-    form.addEventListener("submit", function (event) {
-        event.preventDefault(); // Stop default page reload
-        console.log("🟢 Add Buddy form submitted");
-
-        // Collect form data
-        const buddy = {
-            name: document.querySelector("#name").value,
-            phoneNumber: document.querySelector("#phoneNumber").value,
-            address: document.querySelector("#address").value,
-            addressBookId: document.querySelector("#addressBookId").value
-        };
-
-        console.log("📦 Sending:", buddy);
-
-        // Send AJAX request
-        fetch("/addressBooks/${addressBookId}/view", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(buddy)
-        })
-            .then(response => {
-                if (!response.ok) throw new Error(`HTTP error! ${response.status}`);
-                return response.json();
-            })
-            .then(data => {
-                console.log("✅ Buddy added:", data);
-                document.querySelector("#result").innerHTML =
-                    `<p>✅ Added ${data.name} (${data.phoneNumber}) successfully!</p>`;
-            })
-            .catch(err => {
-                console.error("❌ Error:", err);
-                document.querySelector("#result").innerHTML =
-                    `<p style="color:red;">Error: ${err.message}</p>`;
-            });
-    });
-});
-
+/* ---------------------------
+   PRIMARY EVENT LISTENERS
+---------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
+
+    // Attempt to load address books (for the addAddressBook page)
+    // This will run on page load and fill the list
     loadAddressBooks();
 
-    // Register "Create Address Book" form (if present)
-    const createBookForm = document.getElementById("createAddressBookForm");
+    //Progressive Enhancement for "Create Address Book"
+
+    const createBookForm = document.getElementById("addAddressBookForm");
+
     if (createBookForm) {
         createBookForm.addEventListener("submit", (event) => {
-            event.preventDefault();
+            event.preventDefault(); // Hijack the Part 1 form
+
+            // Uses the correct ID "name"
             const name = document.getElementById("name").value;
-            createAddressBook(name);
+            createAddressBook(name); // Call the AJAX (Part 2) function
         });
     }
 
-    // Register "Add Buddy" form (if present)
+    // --- Progressive Enhancement for "Add Buddy" ---
     const addBuddyForm = document.getElementById("addBuddyForm");
+
     if (addBuddyForm) {
         addBuddyForm.addEventListener("submit", (event) => {
-            event.preventDefault();
+            event.preventDefault(); // Hijack the Part 1 form
+
             const addressBookId = document.getElementById("addressBookId").value;
             const name = document.getElementById("name").value;
             const phoneNumber = document.getElementById("phoneNumber").value;
             const address = document.getElementById("address").value;
 
+            // Call the AJAX (Part 2) function
             addBuddy(addressBookId, name, phoneNumber, address);
         });
     }
 });
 
 /* ---------------------------
-   Load all Address Books
+   Load all Address Books (AJAX)
 ---------------------------- */
 async function loadAddressBooks() {
     try {
-        const response = await fetch("/addressBooks");
+        // ✅ FIX: Added /api/ prefix
+        const response = await fetch("/api/addressBooks");
         if (!response.ok) throw new Error("Failed to fetch address books");
+
         const books = await response.json();
-
         const list = document.getElementById("addressBookList");
-        if (!list) return;
+        if (!list) return; // Exit if we're not on the addAddressBook page
 
-        list.innerHTML = "";
+        list.innerHTML = ""; // Clear list
         books.forEach((book) => {
             const li = document.createElement("li");
-            li.innerHTML = `
-                ${book.name} (ID: ${book.id})
-                <button onclick="viewAddressBook(${book.id})">View</button>
-            `;
+            // Use Thymeleaf-style link for consistency
+            li.innerHTML = `<a href="/addressBooks/${book.id}/view">${book.name}</a>`;
             list.appendChild(li);
         });
     } catch (error) {
@@ -109,15 +76,27 @@ async function loadAddressBooks() {
 ---------------------------- */
 async function createAddressBook(name) {
     try {
-        const response = await fetch("/addressBooks", {
+        //
+        const response = await fetch("/api/addressBooks", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name }),
         });
 
         if (!response.ok) throw new Error("Failed to create address book");
-        document.getElementById("addressBookName").value = "";
-        await loadAddressBooks(); // refresh list
+
+        const newBook = await response.json();
+
+        // Add the new book to the list dynamically
+        const list = document.getElementById("addressBookList");
+        if (list) {
+            const li = document.createElement("li");
+            li.innerHTML = `<a href="/addressBooks/${newBook.id}/view">${newBook.name}</a>`;
+            list.appendChild(li);
+        }
+
+
+        document.getElementById("name").value = ""; // Clear the form
     } catch (error) {
         console.error("Error creating address book:", error);
     }
