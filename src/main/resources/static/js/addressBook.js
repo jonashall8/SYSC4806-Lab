@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (createBookForm) {
         createBookForm.addEventListener("submit", (event) => {
             event.preventDefault();
-            const name = document.getElementById("addressBookName").value;
+            const name = document.getElementById("name").value;
             createAddressBook(name);
         });
     }
@@ -71,8 +71,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const addressBookId = document.getElementById("addressBookId").value;
             const name = document.getElementById("name").value;
             const phoneNumber = document.getElementById("phoneNumber").value;
+            const address = document.getElementById("address").value;
 
-            addBuddy(addressBookId, name, phoneNumber);
+            addBuddy(addressBookId, name, phoneNumber, address);
         });
     }
 });
@@ -93,9 +94,9 @@ async function loadAddressBooks() {
         books.forEach((book) => {
             const li = document.createElement("li");
             li.innerHTML = `
-        Address Book ID: ${book.id}
-        <button onclick="viewAddressBook(${book.id})">View</button>
-      `;
+                ${book.name} (ID: ${book.id})
+                <button onclick="viewAddressBook(${book.id})">View</button>
+            `;
             list.appendChild(li);
         });
     } catch (error) {
@@ -144,6 +145,8 @@ async function viewAddressBook(addressBookId) {
         <input type="text" id="name" required>
         <label>Phone Number:</label>
         <input type="text" id="phoneNumber" required>
+        <label>Address:</label>
+        <input type="text" id="address" required>
         <button type="submit">Add Buddy</button>
       </form>
     `;
@@ -154,39 +157,50 @@ async function viewAddressBook(addressBookId) {
             event.preventDefault();
             const name = document.getElementById("name").value;
             const phoneNumber = document.getElementById("phoneNumber").value;
-            addBuddy(addressBookId, name, phoneNumber);
+            const address = document.getElementById("address").value;
+            addBuddy(addressBookId, name, phoneNumber, address);
         });
     } catch (error) {
         console.error("Error viewing address book:", error);
     }
 }
 
+
 /* ---------------------------
-   Add Buddy to an Address Book
+   Add Buddy to an Address Book (AJAX)
 ---------------------------- */
-/* ---------------------------
-   Add Buddy to an Address Book
----------------------------- */
-async function addBuddy(addressBookId, name, phoneNumber) {
+async function addBuddy(addressBookId, name, phoneNumber, address) {
     try {
         console.log(`🚀 Adding buddy to AddressBook ${addressBookId}`);
-        const response = await fetch(`/addBuddy/${addressBookId}`, {   // ✅ matches controller
+
+        // ✅ FIX: This is the correct Part 2 logic from your inline script
+        const response = await fetch(`/api/addressBooks/${addressBookId}/buddies`, {
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" }, // ✅ for @RequestParam
-            body: new URLSearchParams({
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
                 name: name,
                 phoneNumber: phoneNumber,
-                address: "Unknown" // or grab from form if you have it
+                address: address
             })
         });
 
         if (!response.ok) throw new Error(`Failed to add buddy (status ${response.status})`);
 
-        console.log("✅ Buddy added successfully!");
-        window.location.href = `/addressBooks/${addressBookId}/view`; // ✅ redirect on success
+        // Add the new buddy to the list dynamically
+        const newBuddy = await response.json();
+        const list = document.getElementById("buddyList");
+        if (list) {
+            const li = document.createElement("li");
+            li.textContent = `${newBuddy.name} (${newBuddy.phoneNumber}) - ${newBuddy.address}`;
+            list.appendChild(li);
+        }
+
+        // Reset the form
+        document.getElementById("addBuddyForm").reset();
+        console.log("✅ Buddy added successfully to list!");
+
     } catch (error) {
         console.error("❌ Error adding buddy:", error);
-        window.location.href = `/addressBooks/${addressBookId}/view`; // fallback redirect
     }
 }
 

@@ -62,6 +62,10 @@ public class BuddyInfo {
         this.name = name;
     }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
 
 
     @Override
@@ -69,6 +73,7 @@ public class BuddyInfo {
         return "BuddyInfo{id=" + id +
                 ", name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 

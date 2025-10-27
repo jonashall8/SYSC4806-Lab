@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Add Address Book</title>
@@ -38,7 +38,7 @@
 <body>
 <h1>Add a New Address Book</h1>
 
-<form id="addAddressBookForm" onsubmit="addAddressBook(event)">
+<form id="addAddressBookForm" action="/addAddressBook" method="POST">
     <label for="name">Address Book Name:</label>
     <input type="text" id="name" name="name" required><br><br>
 
@@ -46,6 +46,13 @@
 </form>
 
 <h2>Address Book List</h2>
-<ul id="addressBookList"></ul>
+<ul id="addressBookList">
+    <li th:each="book : ${addressBooks}">
+        <a th:href="@{/addressBooks/{id}/view(id=${book.id})}"
+           th:text="${book.name}">
+            Existing Address Book
+        </a>
+    </li>
+</ul>
 </body>
 </html>

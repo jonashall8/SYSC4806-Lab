@@ -39,7 +39,11 @@ public class AddressBookWebController {
 
     // ✅ Show form to create a new address book
     @GetMapping("/addAddressBook")
-    public String showAddAddressBookForm() {
+    public String showAddAddressBookForm(Model model) {
+
+        Iterable<AddressBook> addressBooks = addressBookRepository.findAll();
+        model.addAttribute("addressBooks", addressBooks);
+
         return "addAddressBook" ; // render Thymeleaf template, not redirect
     }
 
@@ -54,6 +58,12 @@ public class AddressBookWebController {
     // ✅ Show form to add a buddy to a specific address book
     @GetMapping("/addBuddy/{id}")
     public String showAddBuddyForm(@PathVariable("id") Long addressBookId, Model model) {
+
+        AddressBook addressBook = addressBookRepository.findById(addressBookId)
+                .orElseThrow(() -> new RuntimeException("AddressBook not found"));
+
+        model.addAttribute("buddies", addressBook.getBuddies());
+
         model.addAttribute("addressBookId", addressBookId);
         return "addBuddy"; // render addBuddy.html template
     }

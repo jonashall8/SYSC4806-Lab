@@ -29,12 +29,12 @@ public class AccessingDataJpaApplication {
             BuddyInfo buddy6 = new BuddyInfo("David", "678-9043", "7534 Hitch Cresent");
 
             // create an address book and add buddies
-            AddressBook addressBook = new AddressBook();
+            AddressBook addressBook = new AddressBook("Neighbours");
             addressBook.addBuddy(buddy1);
             addressBook.addBuddy(buddy2);
             addressBook.addBuddy(buddy3);
 
-            AddressBook addressBook1 = new AddressBook();
+            AddressBook addressBook1 = new AddressBook("Classmates");
             addressBook1.addBuddy(buddy4);
             addressBook1.addBuddy(buddy5);
             addressBook1.addBuddy(buddy6);

@@ -50,13 +50,12 @@ public class AddressBookRestController {
         BuddyInfo newBuddy = new BuddyInfo();
         newBuddy.setName(buddyDTO.getName());
         newBuddy.setPhoneNumber(buddyDTO.getPhoneNumber());
-        newBuddy.setAddressBook(ab); // <-- Manually set the relationship
+        newBuddy.setAddress(buddyDTO.getAddress()); // <-- Manually set the relationship
 
         // 3. Add the buddy to the address book's list
         ab.addBuddy(newBuddy);
 
         // 4. Save the new buddy (which cascades the save to the address book if configured)
-        //    Or save both explicitly
         buddyInfoRepository.save(newBuddy);
         addressBookRepository.save(ab);
 

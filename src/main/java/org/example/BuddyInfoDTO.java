@@ -6,6 +6,7 @@ package org.example;
 public class BuddyInfoDTO {
     private String name;
     private String phoneNumber;
+    private String address;
 
     // --- IMPORTANT ---
     // Add a no-argument constructor
@@ -27,5 +28,13 @@ public class BuddyInfoDTO {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getAddress(){
+        return address;
+    }
+
+    public void setAddress(String address){
+        this.address = address;
     }
 }
